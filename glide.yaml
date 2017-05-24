@@ -1,0 +1,4 @@
+package: github.com/reimannf/swift4hubic
+import:
+- package: golang.org/x/oauth2
+- package: gopkg.in/yaml.v2

@@ -4,4 +4,4 @@ build
 
 # custom configuration files used during development
 *test*.yaml
-*config*.yaml
+config*.yaml

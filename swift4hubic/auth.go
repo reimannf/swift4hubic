@@ -21,7 +21,8 @@ func NewOAuthConfig(hubicApplication *HubicApplication) *oauth2.Config {
 
 func NewSwiftToken(client *http.Client) (*SwiftV1Token, error) {
 	//TODO Store Token
-	resp, err := client.Get("https://api.hubic.com/1.0/account/credentials")
+	url := "https://api.hubic.com/1.0/account/credentials"
+	resp, err := client.Get(url)
 	if err != nil {
 		return nil, err
 	}
@@ -29,8 +30,9 @@ func NewSwiftToken(client *http.Client) (*SwiftV1Token, error) {
 
 	var token SwiftV1Token
 	if err := json.NewDecoder(resp.Body).Decode(&token); err != nil {
-		Log(LogError, err.Error())
+		return nil, err
 	}
 
+	Log(LogDebug, "Succesfully fetched Swift Token from %s", url)
 	return &token, err
 }

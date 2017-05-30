@@ -75,6 +75,15 @@ func (cfg Configuration) validate() (success bool) {
 	return success
 }
 
+func (cfg Configuration) getHubicApplication(user, password string) (*HubicApplication, error) {
+	for _, hubicApplication := range cfg.HubicApplications {
+		if hubicApplication.Account == user && hubicApplication.Password == password {
+			return hubicApplication, nil
+		}
+	}
+	return nil, fmt.Errorf("Unauthorized")
+}
+
 //TODO Not Thread Safe
 func (hubicApp HubicApplication) getToken() (*oauth2.Token, error) {
 	tokenString := hubicApp.OAuthToken

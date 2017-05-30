@@ -73,7 +73,13 @@ func (cxt *appContext) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cxt *appContext) AuthHandler(w http.ResponseWriter, r *http.Request) {
-	hubicApp := cxt.config.HubicApplications[0]
+	user := r.Header.Get("X-AUTH-USER")
+	key := r.Header.Get("X-AUTH-KEY")
+	hubicApp, err := cxt.config.getHubicApplication(user, key)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
 
 	token, err := hubicApp.getToken()
 	if err != nil {
